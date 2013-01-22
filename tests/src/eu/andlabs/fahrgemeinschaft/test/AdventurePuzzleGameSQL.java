@@ -36,13 +36,50 @@ public class AdventurePuzzleGameSQL extends ProviderTestCase2<RideProvider> {
         result.moveToFirst();  // 5 Points!
         assertEquals("QUEST:   is Pausenhof.", result.getString(1), "Pausenhof");
     }
-
+    
     private ContentValues getDummyPlace(String name) {
         ContentValues place = new ContentValues();
         place.put("name", name);
         place.put("lat", 23);
         place.put("lng", 42);
         return place;
+    }
+
+
+
+    /*
+     * ### Level 2 ###   Remembering Search Queries  #########################
+     */
+    Uri QUERIES = Uri.parse("content://eu.andlabs.fahrgemeinschaft/queries");
+    
+    public void testStoreQueries() {
+        
+        Uri search = android.insert(QUERIES, getDummySearchQuery());
+        int id = Integer.parseInt(search.getLastPathSegment());
+        assertEquals("QUEST:   first primary key", id, 1);
+        
+        Uri again = android.insert(QUERIES, getDummySearchQuery());
+        assertEquals("QUEST:   still the same first primary key",
+                Integer.parseInt(again.getLastPathSegment()), id); // 5 Points!
+        
+        result = android.query(QUERIES, null, null, null, null);
+        assertEquals("QUEST:   database finds only ONE query.", result.getCount(), 1); // 3 Points!
+        
+        result.moveToFirst();  // 7 Points!
+        assertEquals("QUEST:   the single query has id", result.getInt(0), id); // 3 Points!
+        assertEquals("QUEST:   it has Pausenhof as origin", result.getInt(1), 1); // 5 Points!
+        assertEquals("QUEST:   it has Studios as destination", result.getInt(2), 2); // 5 Points!
+        assertEquals("QUEST:   it has been used TWO times to search", result.getInt(3), 2); // 7 Points!
+    }
+    
+    private ContentValues getDummySearchQuery() {
+        Uri pausenhof = android.insert(PLACES, getDummyPlace("Pausenhof")); // primary key: 1
+        Uri studios = android.insert(PLACES, getDummyPlace("Studios")); // primary key: 2
+        ContentValues query = new ContentValues();
+        query.put("orig", Integer.parseInt(pausenhof.getLastPathSegment()));
+        query.put("dest", Integer.parseInt(studios.getLastPathSegment()));
+        query.put("when", System.currentTimeMillis());
+        return query;
     }
 
 
