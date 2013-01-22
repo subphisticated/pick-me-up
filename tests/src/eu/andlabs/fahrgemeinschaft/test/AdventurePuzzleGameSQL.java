@@ -81,6 +81,38 @@ public class AdventurePuzzleGameSQL extends ProviderTestCase2<RideProvider> {
         query.put("when", System.currentTimeMillis());
         return query;
     }
+    
+    
+    
+    /*
+     * ### Level 3 ###   Storing Fahrgemeinschaften  #########################
+     */
+    Uri RIDES = Uri.parse("content://eu.andlabs.fahrgemeinschaft/queries/1/rides");
+    
+    public void testStoreRides() {
+        
+        Uri search = android.insert(QUERIES, getDummySearchQuery());
+        Uri horst = android.insert(search, getDummyRide("Horst"));
+        Uri lisa = android.insert(search, getDummyRide("Lisa"));
+        Uri max = android.insert(search, getDummyRide("Max"));
+        
+        int max_id = Integer.parseInt(max.getLastPathSegment());
+        assertEquals("QUEST:   third primary key", max_id, 3); // 5 Points!
+        
+        result = android.query(RIDES, null, null, null, null);
+        assertEquals("QUEST:   finds three rides for query", result.getCount(), 3); // 5 Points!
+        
+        result.moveToPosition(3);
+        assertEquals("QUEST:   the single query has id", result.getInt(0), max_id); // 3 Points!
+        assertEquals("QUEST:   max is the driver", result.getString(1), "Max"); // 5 Points!
+    }
+    
+    private ContentValues getDummyRide(String driver_name) {
+        ContentValues ride = new ContentValues();
+        ride.put("name", driver_name);
+        ride.put("tel", "1234567");
+        return ride;
+    }
 
 
 
