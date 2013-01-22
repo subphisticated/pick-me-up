@@ -34,6 +34,12 @@ public class RideProvider extends ContentProvider {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            db.execSQL("CREATE TABLE places ( " + 
+                        "_id INTEGER PRIMARY KEY," +
+                        " lat INTEGER," + 
+                        " lng INTEGER," + 
+                        " name TEXT" + 
+                        ");");
             Log.d(TAG, "DB CREATED");
         }
 
