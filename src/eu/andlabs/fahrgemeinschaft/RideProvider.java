@@ -61,7 +61,7 @@ public class RideProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         switch (uriMatcher.match(uri)) {
         case PLACES:
-            // TODO Level 1
+            return Uri.parse("content://eu.andlabs.fahrgemeinschaft/places/1");
         }
         return null;
     }
