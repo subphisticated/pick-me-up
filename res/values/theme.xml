@@ -25,7 +25,11 @@
         <item name="android:textStyle">bold</item>
     </style>
     
-    <color name="darkGreen">#5500FF00</color>
-    <color name="mediumGreen">#9900FF00</color>
-    <color name="lightGreen">#CC00FF00</color>
+    <color name="darkGreen1">#839c3a</color>
+    <color name="darkGreen2">#5d6f29</color>
+    <color name="darkGreen3">#384219</color>
+    <color name="mediumGreen">#bbdf53</color>
+    <color name="lightGreen1">#d0e987</color>
+    <color name="lightGreen2">#ddefa9</color>
+    <color name="lightGreen3">#ebf5cc</color>
 </resources>
